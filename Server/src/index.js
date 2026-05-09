@@ -11,6 +11,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 app.use('/list-genders', genderRoute);
+app.use('/movies', movieRoute);
 
 app.use('/health', (req, res) => {
     res.send('Api a funcionar!');

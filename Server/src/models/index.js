@@ -3,11 +3,11 @@ const Movie = require('./movie');
 const Gender = require('./gender');
 
 //==============
-// Movie - Gender 1-1
+// Movie - Gender 1-Many
 //==============
 
+Gender.hasMany(Movie, { foreignKey: 'genderId', as : 'GenderMovie' });
 Movie.belongsTo(Gender, { foreignKey: 'genderId', as : 'MovieGenders' });  
-Gender.hasOne(Movie, { foreignKey: 'genderId', as : 'GenderMovie' });
 
 module.exports = {
     sequelize,

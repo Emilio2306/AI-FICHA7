@@ -1,5 +1,4 @@
 const {Movie, Gender}=require('../models');
-const genderController ={};
 
 exports.test = async (req, res) => {
     try {

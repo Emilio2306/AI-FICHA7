@@ -106,3 +106,59 @@ exports.createMovie = async (req, res) => {
         res.status(500).json({ error: 'Error creating movie' });
     }
 };
+//==============
+// UPDATE
+//==============
+exports.updateMovie=async (req, res) => {
+    const { id } = req.params;
+    const { title, genderId, description } = req.body;
+   // Validações opcionais (só valida o que veio)
+    if (title && typeof title !== 'string') {
+        return res.status(400).json({ error: 'Title must be a string' });
+    }
+    if (description && typeof description !== 'string') {
+        return res.status(400).json({ error: 'Description must be a string' });
+    }
+    if (genderId && isNaN(genderId)) {
+        return res.status(400).json({ error: 'genderId must be a number' });
+    }
+
+    try {
+        const fieldsToUpdate = { };
+
+        if (title) fieldsToUpdate.title = title;
+        if (genderId) fieldsToUpdate.genderId = genderId;
+        if (description) fieldsToUpdate.description = description;
+        if (req.file) fieldsToUpdate.image = `/uploads/${req.file.filename}`;
+        Movie.
+        const [rowsUpdated] = await Movie.update(fieldsToUpdate, 
+            { where: { id } }
+        );
+        if (rowsUpdated === 0) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+        res.json({ message: 'Movie updated successfully' });
+
+    } catch (error) {
+        console.error(`Error updating movie with id ${id}:`, error);
+        res.status(500).json({ error: 'Error updating movie' });
+    }
+
+};
+//==============
+// DELETE
+//==============
+exports.deleteMovie = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const rowsDeleted = await Movie.destroy({ where: { id } });
+        if (rowsDeleted === 0) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+        res.json({ message: 'Movie deleted successfully' });
+    }
+    catch (error) {
+        console.error(`Error deleting movie with id ${id}:`, error);
+        res.status(500).json({ error: 'Error deleting movie' });
+    }
+};

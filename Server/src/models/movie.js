@@ -28,7 +28,7 @@ const Movie = sequelize.define(
   },
   {
     tableName: 'movies',
-    timestamps: false,
+    timestamps: true,
   }
 );
 

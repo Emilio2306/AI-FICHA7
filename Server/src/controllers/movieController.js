@@ -41,9 +41,37 @@ exports.getMovieByGender = async (req, res) => {
     const { genderId } = req.params;
     try {
         const movies = await Movie.findAll({ where: { genderId:genderId } });
-        res.json(movies);
+        res.status(200).json(movies);
     } catch (error) {
         console.error(`Error fetching movies for gender ${genderId}:`, error);
         res.status(500).json({ error: 'Error fetching movies' });
+    }
+};
+//==============
+// CREATE
+//==============
+exports.createMovie = async (req, res) => {
+    const { title, genderId, description } = req.body;
+    if (!title || !genderId || !description) {
+        return res.status(400).json({ error: 'Title, genderId, and description are required' });
+    }
+    if(typeof title !== 'string' || typeof genderId !== 'number' || typeof description !== 'string'){
+        return res.status(400).json({ error: 'Invalid data types for title, genderId, or description' });
+    }
+    const gender = await Gender.findByPk(genderId);
+    if(!gender){
+        return res.status(400).json({ error: 'Invalid genderId' });
+    }
+    
+    try {
+        const newMovie = await Movie.create({
+            title: title,
+            genderId: genderId,
+            description: description
+        });
+        res.status(201).json(newMovie);
+    } catch (error) {
+        console.error('Error creating movie:', error);
+        res.status(500).json({ error: 'Error creating movie' });
     }
 };

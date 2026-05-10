@@ -51,23 +51,54 @@ exports.getMovieByGender = async (req, res) => {
 // CREATE
 //==============
 exports.createMovie = async (req, res) => {
-    const { title, genderId, description } = req.body;
-    if (!title || !genderId || !description) {
-        return res.status(400).json({ error: 'Title, genderId, and description are required' });
-    }
-    if(typeof title !== 'string' || typeof genderId !== 'number' || typeof description !== 'string'){
-        return res.status(400).json({ error: 'Invalid data types for title, genderId, or description' });
-    }
-    const gender = await Gender.findByPk(genderId);
-    if(!gender){
-        return res.status(400).json({ error: 'Invalid genderId' });
-    }
-    
-    try {
-        const newMovie = await Movie.create({
+    try{
+        const { title, genderId, description } = req.body;
+        const parsedGenderId = Number(genderId);
+        if (!req.file) {
+            return res.status(400).json({
+                error: 'Image is required'
+            });
+        }
+        if (!title || !parsedGenderId || !description) {
+            return res.status(400).json({ error: 'Title, genderId, and description are required' });
+        }
+        if (typeof title !== 'string') {
+        return res.status(400).json({
+            error: 'Title must be a string'
+        });
+        }
+
+        if (typeof description !== 'string') {
+            return res.status(400).json({
+                error: 'Description must be a string'
+            });
+        }
+        
+        if (isNaN(parsedGenderId)) {
+            return res.status(400).json({
+                error: 'genderId must be a number'
+            });
+        }
+        const gender = await Gender.findByPk(parsedGenderId);
+        if(!gender){
+            return res.status(400).json({ error: 'Invalid genderId' });
+        }
+        const existingMovie = await Movie.findOne({
+            where: { title }
+        });
+
+        if (existingMovie) {
+            return res.status(400).json({
+                error: 'A movie with this title already exists'
+            });
+        }
+        const image=`/uploads/${req.file.filename}`;
+        
+            const newMovie = await Movie.create({
             title: title,
-            genderId: genderId,
-            description: description
+            genderId: parsedGenderId,
+            description: description,
+            image: image
         });
         res.status(201).json(newMovie);
     } catch (error) {

@@ -15,7 +15,7 @@ const Movie = sequelize.define(
     },
     image:{
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false,
     },
     genderId: {
       type: DataTypes.INTEGER,

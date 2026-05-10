@@ -3,7 +3,7 @@ const cors = require('cors');
 const sequelize = require('./config/database');
 const genderRoute=require('./routes/genderRoute');
 const movieRoute=require('./routes/movieRoute');
-const uploadRoute=require('./routes/uploadRoute');
+
 
 const app = express();
 
@@ -13,7 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/list-genders', genderRoute);
 app.use('/movies', movieRoute);
-app.use('/upload', uploadRoute);
 app.use('/health', (req, res) => {
     res.send('Api a funcionar!');
 });

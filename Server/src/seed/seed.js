@@ -34,10 +34,10 @@ async function main() {
 
   console.log('Base de dados sincronizada!');
   // criar géneros
-  for (const genderName of genders) {
+  for (const genderDescription of genders) {
 
     await Gender.create({
-      name: genderName,
+      description: genderDescription,
     });
 
   }
@@ -49,7 +49,7 @@ async function main() {
       title: movieTitle,
       description: faker.lorem.paragraph(),
       image: faker.image.url(),
-      genderId: faker.number.int({ min: 1, max: 10 }),
+      genderId: faker.number.int({ min: 1, max: genders.length }),
     });
 
   }

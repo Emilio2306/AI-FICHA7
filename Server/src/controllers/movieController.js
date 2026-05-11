@@ -130,7 +130,6 @@ exports.updateMovie=async (req, res) => {
         if (genderId) fieldsToUpdate.genderId = genderId;
         if (description) fieldsToUpdate.description = description;
         if (req.file) fieldsToUpdate.image = `/uploads/${req.file.filename}`;
-        Movie.
         const [rowsUpdated] = await Movie.update(fieldsToUpdate, 
             { where: { id } }
         );

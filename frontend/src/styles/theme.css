@@ -1,0 +1,354 @@
+/* =========================================================================
+   THEME — Dark Mode Cinema
+   ========================================================================= */
+
+/* Tipografia */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* -------------------------------------------------------------------------
+   Design tokens (CSS variables)
+   ------------------------------------------------------------------------- */
+:root {
+  /* Backgrounds — escala de elevação */
+  --bg-base:        #0A0B0F;
+  --bg-elevated:    #14161D;
+  --bg-overlay:     #1C1F28;
+  --bg-hover:       #1F2230;
+
+  /* Texto */
+  --text-primary:   #E8E8EC;
+  --text-secondary: #9CA3AF;
+  --text-muted:     #6B7280;
+
+  /* Bordas */
+  --border:         #2A2D38;
+  --border-strong:  #3A3D48;
+
+  /* Accent — vermelho cinema */
+  --accent:         #E50914;
+  --accent-hover:   #F40612;
+  --accent-soft:    rgba(229, 9, 20, 0.15);
+
+  /* Estados */
+  --success:        #10B981;
+  --warning:        #F59E0B;
+  --danger:         #EF4444;
+
+  /* Layout */
+  --radius-sm:      6px;
+  --radius:         10px;
+  --radius-lg:      16px;
+  --transition:     150ms ease;
+}
+
+/* -------------------------------------------------------------------------
+   Reset & base
+   ------------------------------------------------------------------------- */
+html, body, #root {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+}
+
+body {
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+h1 { font-size: 2rem; }
+
+a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover { color: var(--accent); }
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* -------------------------------------------------------------------------
+   Topbar
+   ------------------------------------------------------------------------- */
+.topbar {
+  background-color: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+.topbar .brand {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.topbar .brand-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* -------------------------------------------------------------------------
+   Bootstrap overrides (mantém classes Bootstrap, troca aparência)
+   ------------------------------------------------------------------------- */
+
+/* Cards & containers genéricos */
+.surface {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+/* Botões */
+.btn {
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1.1rem;
+  transition: all var(--transition);
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: white;
+}
+
+.btn-warning {
+  background-color: transparent;
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+.btn-warning:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #DC2626;
+  border-color: #DC2626;
+  color: white;
+}
+
+.btn-outline-secondary {
+  background-color: transparent;
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+.btn-outline-secondary:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+/* Inputs & forms */
+.form-control,
+.form-select {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.85rem;
+  transition: all var(--transition);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--bg-elevated);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  color: var(--text-primary);
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.form-label {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-select option {
+  background-color: var(--bg-overlay);
+  color: var(--text-primary);
+}
+
+/* Input file (estilizado de forma simples e legível) */
+.form-control[type="file"] {
+  padding: 0.5rem 0.85rem;
+}
+.form-control[type="file"]::file-selector-button {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  border: none;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  margin-right: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.form-control[type="file"]::file-selector-button:hover {
+  background-color: var(--border);
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Tabela */
+.table {
+  --bs-table-bg: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+  margin-bottom: 0;
+}
+
+.table-bordered,
+.table-bordered > :not(caption) > * {
+  border-color: var(--border);
+}
+
+.table-dark {
+  --bs-table-bg: var(--bg-overlay);
+  --bs-table-color: var(--text-secondary);
+}
+.table > thead {
+  background-color: var(--bg-overlay);
+}
+.table > thead th {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.table > tbody > tr {
+  transition: background-color var(--transition);
+}
+.table > tbody > tr:hover {
+  --bs-table-bg-state: var(--bg-hover);
+}
+
+.table > tbody > tr > td {
+  padding: 0.85rem 1rem;
+  vertical-align: middle;
+  border-color: var(--border);
+}
+
+.table-hover > tbody > tr:hover > * {
+  color: var(--text-primary);
+}
+
+/* Alerts */
+.alert {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.alert-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #FCA5A5;
+}
+
+/* Modal — sobrepor Bootstrap */
+.modal-content {
+  background-color: var(--bg-overlay);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+}
+.modal-header,
+.modal-footer {
+  border-color: var(--border);
+}
+.modal-backdrop.show {
+  opacity: 0.75;
+  background-color: #000;
+}
+.btn-close {
+  filter: invert(1) opacity(0.6);
+  transition: opacity var(--transition);
+}
+.btn-close:hover { filter: invert(1) opacity(1); }
+
+/* -------------------------------------------------------------------------
+   Poster (imagem em listas)
+   ------------------------------------------------------------------------- */
+.poster {
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  background-color: var(--bg-overlay);
+}
+
+.poster-sm { width: 48px; height: 64px; }
+.poster-md { width: 80px; height: 110px; }
+.poster-lg { width: 160px; height: 220px; }
+
+/* -------------------------------------------------------------------------
+   Empty state
+   ------------------------------------------------------------------------- */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+}
+
+/* -------------------------------------------------------------------------
+   Spinner
+   ------------------------------------------------------------------------- */
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

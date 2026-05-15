@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-
-const API = 'http://localhost:3000'
+import { moviesApi } from '../services/api'
+import MovieTable from '../components/movie/MovieTable'
+import ConfirmModal from '../components/ui/ConfirmModal'
 
 function MovieList() {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [movieToDelete, setMovieToDelete] = useState(null)
 
   useEffect(() => {
     fetchMovies()
@@ -15,87 +16,71 @@ function MovieList() {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get(`${API}/movies/list-movies`)
-      setMovies(response.data)
-    } catch (err) {
+      const data = await moviesApi.list()
+      setMovies(data)
+    } catch {
       setError('Erro ao carregar filmes.')
-      console.error(err)
     } finally {
       setLoading(false)
     }
   }
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Tens a certeza que queres eliminar este filme?')) return
-
+  const confirmDelete = async () => {
+    if (!movieToDelete) return
     try {
-      await axios.delete(`${API}/movies/delete-movie/${id}`)
-      setMovies(movies.filter(movie => movie.id !== id))
-    } catch (err) {
+      await moviesApi.remove(movieToDelete)
+      setMovies(movies.filter(m => m.id !== movieToDelete))
+    } catch {
       alert('Erro ao eliminar filme.')
-      console.error(err)
+    } finally {
+      setMovieToDelete(null)
     }
   }
 
-  if (loading) return <p className="text-center mt-5">A carregar filmes...</p>
-  if (error)   return <p className="text-center mt-5 text-danger">{error}</p>
+  if (loading) {
+    return (
+      <div className="container mt-5 text-center">
+        <div className="spinner" />
+        <p className="mt-3" style={{ color: 'var(--text-secondary)' }}>
+          A carregar filmes...
+        </p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="container mt-5">
+        <div className="alert alert-danger">{error}</div>
+      </div>
+    )
+  }
 
   return (
-    <div className="container mt-4">
+    <div className="container">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1> Filmes</h1>
-        <Link to="/filmes/novo" className="btn btn-primary">
+        <div>
+          <h1 className="mb-1">Catálogo</h1>
+          <p className="mb-0" style={{ color: 'var(--text-secondary)' }}>
+            {movies.length} {movies.length === 1 ? 'filme' : 'filmes'} no catálogo
+          </p>
+        </div>
+        <Link to="/movies/new" className="btn btn-primary">
           + Novo Filme
         </Link>
       </div>
 
-      {movies.length === 0 && (
-        <p className="text-muted">Nenhum filme encontrado.</p>
-      )}
+      <MovieTable movies={movies} onDelete={setMovieToDelete} />
 
-      {movies.length > 0 && (
-        <table className="table table-bordered table-hover">
-          <thead className="table-dark">
-            <tr>
-              <th>ID</th>
-              <th>Foto</th>
-              <th>Título</th>
-              <th>Descrição</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {movies.map(movie => (
-              <tr key={movie.id}>
-                <td>{movie.id}</td>
-                <td>
-                  <img
-                    src={`${API}${movie.image}`}
-                    alt={movie.title}
-                    style={{ width: '60px', height: '60px', objectFit: 'cover' }}
-                  />
-                </td>
-                <td>{movie.title}</td>
-                <td>{movie.description?.substring(0, 80)}...</td>
-                <td>
-                  <Link
-                    to={`/filmes/editar/${movie.id}`}
-                    className="btn btn-sm btn-warning me-2"
-                  >
-                    Editar
-                  </Link>
-                  <button
-                    onClick={() => handleDelete(movie.id)}
-                    className="btn btn-sm btn-danger"
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <ConfirmModal
+        show={movieToDelete !== null}
+        title="Eliminar filme"
+        message="Tens a certeza que queres eliminar este filme? Esta ação não pode ser revertida."
+        confirmLabel="Eliminar"
+        confirmVariant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setMovieToDelete(null)}
+      />
     </div>
   )
 }

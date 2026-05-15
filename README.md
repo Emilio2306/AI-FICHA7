@@ -112,11 +112,11 @@ O frontend fica disponível em: `http://localhost:5173`
 
 ## 📡 Endpoints da API
 
-### 🎭 Géneros (`/list-genders`)
+### 🎭 Géneros (`/genders`)
 
 | Método | Rota              | Descrição              |
 |--------|-------------------|------------------------|
-| GET    | `/list-genders/test` | Listar todos os géneros |
+| GET    | `/genders/test` | Listar todos os géneros |
 
 ### 🎬 Filmes (`/movies`)
 

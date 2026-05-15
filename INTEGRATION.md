@@ -17,7 +17,7 @@ http://localhost:3000
 ### Listar todos os géneros
 
 ```http
-GET /list-genders/test
+GET /list-genders/list
 ```
 
 **Resposta (200)**
@@ -31,14 +31,14 @@ GET /list-genders/test
 
 **Exemplo com fetch (JavaScript)**
 ```javascript
-const response = await fetch('http://localhost:3000/list-genders/test');
+const response = await fetch('http://localhost:3000/list-genders/list');
 const genres = await response.json();
 console.log(genres);
 ```
 
 **Exemplo com curl**
 ```bash
-curl http://localhost:3000/list-genders/test
+curl http://localhost:3000/list-genders/list
 ```
 
 ---
@@ -48,7 +48,7 @@ curl http://localhost:3000/list-genders/test
 ### Listar todos os filmes
 
 ```http
-GET /movies/list-movies
+GET /movies/list
 ```
 
 **Resposta (200)**
@@ -71,12 +71,12 @@ GET /movies/list-movies
 ### Obter filme por ID
 
 ```http
-GET /movies/movie/:id
+GET /movies/get/:id
 ```
 
 **Exemplo**
 ```bash
-curl http://localhost:3000/movies/movie/1
+curl http://localhost:3000/movies/get/1
 ```
 
 **Resposta (404)** — se não existir
@@ -102,7 +102,7 @@ curl http://localhost:3000/movies/movies/gender/2
 ### Criar filme (com imagem)
 
 ```http
-POST /movies/create-movie
+POST /movies/create
 Content-Type: multipart/form-data
 ```
 
@@ -115,7 +115,7 @@ Content-Type: multipart/form-data
 
 **Exemplo com curl**
 ```bash
-curl -X POST http://localhost:3000/movies/create-movie \
+curl -X POST http://localhost:3000/movies/create \
   -F "title=Inception" \
   -F "genderId=5" \
   -F "description=Um sonhador entra nos sonhos..." \
@@ -130,7 +130,7 @@ formData.append('genderId', 5);
 formData.append('description', 'Um sonhador entra nos sonhos...');
 formData.append('file', ficheiroDaImagem); // input type="file"
 
-const response = await axios.post('http://localhost:3000/movies/create-movie', formData, {
+const response = await axios.post('http://localhost:3000/movies/create', formData, {
   headers: { 'Content-Type': 'multipart/form-data' }
 });
 ```
@@ -160,7 +160,7 @@ const response = await axios.post('http://localhost:3000/movies/create-movie', f
 ### Atualizar filme
 
 ```http
-PUT /movies/update-movie/:id
+PUT /movies/update/:id
 Content-Type: multipart/form-data
 ```
 
@@ -168,7 +168,7 @@ Content-Type: multipart/form-data
 
 **Exemplo com curl**
 ```bash
-curl -X PUT http://localhost:3000/movies/update-movie/1 \
+curl -X PUT http://localhost:3000/movies/update/1 \
   -F "title=Titanic Remastered"
 ```
 
@@ -187,12 +187,12 @@ curl -X PUT http://localhost:3000/movies/update-movie/1 \
 ### Eliminar filme
 
 ```http
-DELETE /movies/delete-movie/:id
+DELETE /movies/delete/:id
 ```
 
 **Exemplo com curl**
 ```bash
-curl -X DELETE http://localhost:3000/movies/delete-movie/1
+curl -X DELETE http://localhost:3000/movies/delete/1
 ```
 
 **Resposta (200)**

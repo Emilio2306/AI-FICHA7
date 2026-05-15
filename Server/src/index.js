@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-app.use('/list-genders', genderRoute);
+app.use('/genders', genderRoute);
 app.use('/movies', movieRoute);
 app.use('/health', (req, res) => {
     res.send('Api a funcionar!');

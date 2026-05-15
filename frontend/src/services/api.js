@@ -74,8 +74,18 @@ export const gendersApi = {
   /** GET /genders/list */
   list: () => apiClient.get('/genders/list').then(r => r.data),
 
-  /** GET /genders/get/:id */
+  /** GET /gender/get/:id */
   getById: (id) => apiClient.get(`/genders/get/${id}`).then(r => r.data),
+
+  /** POST /gender/create */
+  create: (data) => apiClient.post('/genders/create', data).then(r => r.data),
+
+  /** PUT /genders/update/:id */
+  update: (id, data) =>
+    apiClient.put(`/genders/update/${id}`, data).then(r => r.data),
+
+  /** DELETE /genders/delete/:id */
+  remove: (id) => apiClient.delete(`/genders/delete/${id}`).then(r => r.data),
 }
 
 // ============================================================================

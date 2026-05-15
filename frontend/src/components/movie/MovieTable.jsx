@@ -13,7 +13,13 @@ function MovieTable({ movies, onDelete }) {
   }
 
   return (
-    <div className="surface" style={{ padding: 0, overflow: 'hidden' }}>
+    <div
+  className="surface"
+  style={{
+    padding: 0,
+    overflow: 'hidden',
+    border: '1px solid var(--border)',
+  }}>
       <table className="table table-hover mb-0">
         <thead>
           <tr>
@@ -21,6 +27,7 @@ function MovieTable({ movies, onDelete }) {
             <th>Poster</th>
             <th>Título</th>
             <th>Descrição</th>
+            <th>Género</th>
             <th style={{ textAlign: 'right' }}>Ações</th>
           </tr>
         </thead>
@@ -40,6 +47,7 @@ function MovieTable({ movies, onDelete }) {
                 {movie.description?.substring(0, 80)}
                 {movie.description?.length > 80 && '...'}
               </td>
+              <td>{movie.genderName || movie.genderId || '—'}</td>
               <td style={{ textAlign: 'right' }}>
                 <Link
                   to={`/movies/edit/${movie.id}`}

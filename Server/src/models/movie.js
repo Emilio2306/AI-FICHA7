@@ -19,7 +19,13 @@ const Movie = sequelize.define(
     },
     genderId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'genders',
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
     },
     description: {
       type: DataTypes.TEXT,

@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { moviesApi } from '../services/api'
+import { useToast } from '../contexts/ToastContext'
 import MovieTable from '../components/movie/MovieTable'
 import ConfirmModal from '../components/ui/ConfirmModal'
+import MovieListSkeleton from '../components/movie/MovieListSkeleton'
 
 function MovieList() {
+  const toast = useToast()
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
   const [movieToDelete, setMovieToDelete] = useState(null)
 
   useEffect(() => {
     fetchMovies()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchMovies = async () => {
@@ -19,7 +22,7 @@ function MovieList() {
       const data = await moviesApi.list()
       setMovies(data)
     } catch {
-      setError('Erro ao carregar filmes.')
+      toast.error('Erro ao carregar filmes.')
     } finally {
       setLoading(false)
     }
@@ -27,34 +30,19 @@ function MovieList() {
 
   const confirmDelete = async () => {
     if (!movieToDelete) return
+    const movieTitle = movies.find(m => m.id === movieToDelete)?.title || 'filme'
     try {
       await moviesApi.remove(movieToDelete)
       setMovies(movies.filter(m => m.id !== movieToDelete))
-    } catch {
-      alert('Erro ao eliminar filme.')
+      toast.success(`"${movieTitle}" eliminado com sucesso.`)
+    } catch (err) {
+      toast.error(err.response?.data?.error || 'Erro ao eliminar filme.')
     } finally {
       setMovieToDelete(null)
     }
   }
 
-  if (loading) {
-    return (
-      <div className="container mt-5 text-center">
-        <div className="spinner" />
-        <p className="mt-3" style={{ color: 'var(--text-secondary)' }}>
-          A carregar filmes...
-        </p>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="container mt-5">
-        <div className="alert alert-danger">{error}</div>
-      </div>
-    )
-  }
+  if (loading) return <MovieListSkeleton />
 
   return (
     <div className="container">

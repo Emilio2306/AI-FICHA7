@@ -1,7 +1,8 @@
 //==============
 // IMPORTS
 //==============
-const { Gender } = require('../models');
+const { Gender, Movie } = require('../models');
+const { ForeignKeyConstraintError } = require('sequelize');
 
 //==============
 // READ ALL
@@ -95,6 +96,13 @@ exports.updateGender = async (req, res) => {
 exports.deleteGender = async (req, res) => {
     const { id } = req.params;
     try {
+        const relatedMoviesCount = await Movie.count({ where: { genderId: id } });
+        if (relatedMoviesCount > 0) {
+            return res.status(409).json({
+                error: 'Não é possível eliminar o género: existem filmes associados a este género'
+            });
+        }
+
         const rowsDeleted = await Gender.destroy({ where: { id } });
 
         if (rowsDeleted === 0) {
@@ -103,6 +111,11 @@ exports.deleteGender = async (req, res) => {
 
         res.json({ message: 'Género eliminado com sucesso' });
     } catch (error) {
+        if (error instanceof ForeignKeyConstraintError) {
+            return res.status(409).json({
+                error: 'Não é possível eliminar o género: existem filmes associados a este género'
+            });
+        }
         console.error(`Erro ao eliminar género com id ${id}:`, error);
         res.status(500).json({ error: 'Erro ao eliminar género' });
     }

@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { moviesApi, gendersApi } from '../services/api'
+import { useToast } from '../contexts/ToastContext'
 import MovieForm from '../components/movie/MovieForm'
 
 function MovieCreate() {
+  const toast = useToast()
+  const navigate = useNavigate()
   const [genders, setGenders] = useState([])
   const [error, setError] = useState(null)
-  const navigate = useNavigate()
 
   useEffect(() => {
     gendersApi.list()
       .then(setGenders)
-      .catch(() => console.error('Erro ao buscar géneros'))
+      .catch(() => toast.error('Erro ao carregar géneros.'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = async (formData) => {
     try {
       await moviesApi.create(formData)
+      toast.success('Filme criado com sucesso!')
       navigate('/movies')
     } catch (err) {
-      setError(err.response?.data?.error || 'Erro ao criar filme.')
+      const message = err.response?.data?.error || 'Erro ao criar filme.'
+      setError(message)
+      toast.error(message)
     }
   }
 

@@ -23,45 +23,34 @@ Aplicação fullstack desenvolvida no âmbito da disciplina de **Aplicações pa
 ---
 
 ## 📁 Estrutura
-src/
-├── App.jsx                          # Router principal
-├── main.jsx                         # Entry point (importa Bootstrap + theme.css)
+Project/
+├── Server/                  # Backend Express
+│   ├── src/
+│   │   ├── config/          # Configuração da BD
+│   │   ├── controllers/     # Lógica de cada rota
+│   │   ├── middlewares/     # Multer (upload)
+│   │   ├── models/          # Sequelize models
+│   │   ├── routes/          # Express routers
+│   │   ├── seed/            # Seeds da BD
+│   │   └── index.js         # Entry point
+│   ├── uploads/             # Imagens carregadas
+│   └── .env                 # Variáveis (DB credentials)
 │
-├── components/
-│   ├── layout/
-│   │   └── Topbar.jsx               # Navbar sticky com blur
-│   ├── movie/
-│   │   ├── MovieForm.jsx            # Form partilhado Create/Edit
-│   │   ├── MovieTable.jsx           # Vista em tabela
-│   │   ├── MovieGrid.jsx            # Vista em grid (posters)
-│   │   ├── MovieFilters.jsx         # Pesquisa + filtro por género
-│   │   ├── MovieListSkeleton.jsx
-│   │   ├── MovieFormSkeleton.jsx
-│   │   └── MovieDetailSkeleton.jsx
-│   └── ui/
-│       └── ConfirmModal.jsx         # Modal genérico de confirmação
+├── Frontend/                # SPA React + Vite
+│   ├── src/
+│   │   ├── components/      # Componentes React
+│   │   │   ├── layout/      # Topbar
+│   │   │   ├── movie/       # MovieForm, MovieTable, Skeletons
+│   │   │   └── ui/          # ConfirmModal
+│   │   ├── contexts/        # ToastContext
+│   │   ├── pages/           # MovieList, MovieCreate, MovieEdit, GenderList
+│   │   ├── services/        # api.js (axios client)
+│   │   ├── styles/          # theme.css
+│   │   └── utils/           # validators.js
+│   └── .env                 # VITE_API_URL
 │
-├── contexts/
-│   └── ToastContext.jsx             # Sistema de notificações global
-│
-├── hooks/
-│   └── useLocalStorage.js           # Hook para persistência de preferências
-│
-├── pages/
-│   ├── MovieList.jsx                # /filmes
-│   ├── MovieDetail.jsx              # /filmes/:id
-│   ├── MovieCreate.jsx              # /filmes/novo
-│   ├── MovieEdit.jsx                # /filmes/editar/:id
-│   └── GenderList.jsx               # /generos
-│
-├── services/
-│   └── api.js                       # Cliente axios + funções por entidade
-│
-├── styles/
-│   └── theme.css                    # Tema dark cinema (sobrepõe Bootstrap)
-│
-└── utils/
-└── validators.js                # Helpers de validação client-side
+├── INTEGRATION.md           # Documentação dos endpoints
+└── README.md
 ---
 
 ## 🚀 Como correr
@@ -94,6 +83,13 @@ npm run dev
 App acessível em `http://localhost:5173`.
 
 ---
+
+## 🎯 Funcionalidades
+
+| Recurso | Listar | Criar | Editar | Eliminar |
+|---|---|---|---|---|
+| Filmes | ✅ `/filmes` | ✅ `/filmes/novo` | ✅ `/filmes/editar/:id` | ✅ via modal |
+| Géneros | ✅ `/generos` | ✅ inline | ✅ inline | ✅ via modal |
 
 **Extras:**
 - Upload de imagens com validação de tipo e tamanho (max 5MB, PNG/JPG/WEBP)
@@ -133,48 +129,6 @@ Documentação completa dos endpoints em [`INTEGRATION.md`](./INTEGRATION.md).
 **Design system via CSS variables.** Tema completo definido em `:root` no `theme.css`. Mudar o esquema de cores = editar um bloco.
 
 ---
-## 🧩 Componentes-chave
-
-### `services/api.js`
-Cliente axios único com `baseURL` da env, timeout de 10s e interceptor de erros. Expõe:
-- `moviesApi.list() / getById() / create() / update() / remove()`
-- `gendersApi.list() / getById() / create() / update() / remove()`
-- `assetUrl(path)` para construir URLs de imagens.
-
-### `contexts/ToastContext.jsx`
-Sistema de notificações. Em qualquer componente:
-```jsx
-const toast = useToast()
-toast.success('Filme criado!')
-toast.error('Algo correu mal')
-```
-
-### `components/movie/MovieForm.jsx`
-Form partilhado entre criação e edição. Recebe `initialValues`, `onSubmit`, `submitLabel`, `requireImage`, etc. Integra validação client-side e contagem de caracteres.
-
-### `components/ui/ConfirmModal.jsx`
-Modal de confirmação genérico, controlado por props (`show`, `onConfirm`, `onCancel`, `confirmVariant`). Reutilizado em filmes e géneros.
-
----
-
-## 🎨 Tema
-
-Todo o esquema visual vive em `src/styles/theme.css` via CSS variables:
-
-```css
-:root {
-  --bg-base: #0A0B0F;
-  --bg-elevated: #14161D;
-  --accent: #E50914;       /* vermelho cinema */
-  --text-primary: #E8E8EC;
-  /* ... */
-}
-```
-
-Mudar a paleta inteira = editar o bloco `:root`.
-
----
-
 
 ## 📚 Conformidade com a Ficha de Trabalho nº 7
 

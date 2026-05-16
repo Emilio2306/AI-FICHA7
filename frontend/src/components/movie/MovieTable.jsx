@@ -44,7 +44,7 @@ function MovieTable({ movies, onDelete }) {
               </td>
               <td style={{ fontWeight: 500 }}>
                 <Link
-                    to={`/movies/${movie.id}`}
+                    to={`/movies/get/${movie.id}`}
                     style={{ color: 'var(--text-primary)' }}
                 >
                     {movie.title}
@@ -54,7 +54,7 @@ function MovieTable({ movies, onDelete }) {
                 {movie.description?.substring(0, 80)}
                 {movie.description?.length > 80 && '...'}
               </td>
-              <td>{movie.genderName || movie.genderId || '—'}</td>
+              <td style={{ color: 'var(--text-secondary)' }}>{movie.Genders?.description || '—'}</td>
               <td style={{ textAlign: 'right' }}>
                 <Link
                   to={`/movies/edit/${movie.id}`}

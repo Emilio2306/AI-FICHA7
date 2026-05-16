@@ -201,7 +201,8 @@ O frontend fica disponível em: `http://localhost:5173`
 **Filtragem client-side.** Dataset pequeno justifica filtrar no browser (latência zero). Quando crescer, migra-se para query params no backend.
 
 ---
-## 👤 Autor
 
-**Emilio** — Engenharia Informática  
+## 👤 Autor
+EMILIO FERNANDO
+ 
 GitHub: [@Emilio2306](https://github.com/Emilio2306)

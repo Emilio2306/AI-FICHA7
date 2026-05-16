@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { assetUrl } from '../../services/api'
 
 /**
- * Grid de posters de filmes. Componente puramente apresentacional.
+ * Grid de posters de filmes.
  *
  * Props:
  *   - movies: Array<Movie>
@@ -39,9 +39,9 @@ function MovieGrid({ movies, onDelete }) {
             <h3 className="movie-card-title" title={movie.title}>
               {movie.title}
             </h3>
-            {movie.gender?.description && (
+            {movie.Genders?.description && (
               <span className="movie-card-genre">
-                {movie.gender.description}
+                {movie.Genders.description}
               </span>
             )}
 

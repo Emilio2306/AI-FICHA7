@@ -16,7 +16,7 @@ import {required, minLength, maxLength, isImage, maxFileSize, validate} from '..
  *   - error: string | null — mensagem de erro a mostrar
  *
  * O componente é "burro": não faz chamadas à API. Quem o usa é que sabe
- * para onde enviar os dados (POST /filme/create vs PUT /filme/update/:id).
+ * para onde enviar os dados (POST /movie/create vs PUT /movie/update/:id).
  */
 function MovieForm({
   initialValues = { title: '', genderId: '', description: '' },

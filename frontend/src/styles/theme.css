@@ -306,7 +306,7 @@ a:hover { color: var(--accent); }
 }
 
 .table > tbody > tr > td {
-  padding: 0.85rem 1rem;
+  padding: 0.65rem 0.9rem;
   vertical-align: middle;
   border-color: var(--border);
 }

@@ -84,9 +84,9 @@ function MovieDetail() {
         </div>
 
         <div className="movie-detail-content">
-          {movie.gender?.description && (
+          {movie.Genders?.description && (
             <span className="movie-detail-genre">
-              {movie.gender.description}
+              {movie.Genders.description}
             </span>
           )}
 
@@ -110,7 +110,7 @@ function MovieDetail() {
           </div>
 
           <div className="movie-detail-description">
-            <h2 className="movie-detail-section-title">Sinopse</h2>
+            <h2 className="movie-detail-section-title">Descrição</h2>
             <p>{movie.description}</p>
           </div>
 

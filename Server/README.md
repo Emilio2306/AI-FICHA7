@@ -85,4 +85,7 @@ Formatos aceites: PNG, JPG, JPEG, WEBP. Tamanho máximo: 5 MB (validado também 
 
 ## 🔌 CORS
 
+## 👤 Autor
+EMILIO FERNANDO
+
 Por defeito, aceita apenas pedidos de `http://localhost:5173` (origem do frontend Vite). Para alterar, edita `src/index.js

@@ -1,7 +1,7 @@
 import React from 'react'
 
 /**
- * Modal de confirmação genérico, baseado em Bootstrap 5.
+ * Modal de confirmação genérico
  *
  * Props:
  *   - show: boolean — controla visibilidade

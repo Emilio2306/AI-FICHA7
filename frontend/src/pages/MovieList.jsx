@@ -55,7 +55,7 @@ function MovieList() {
     }
   }
 
-  // -------- FILTRAGEM (memoizada) --------
+  // -------- FILTRAGEM (memorizada) --------
   const filteredMovies = useMemo(() => {
     const term = search.trim().toLowerCase()
     return movies.filter(movie => {

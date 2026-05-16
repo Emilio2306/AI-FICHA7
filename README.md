@@ -18,11 +18,18 @@ Project/
 │       ├── seed/          → Dados de teste
 │       └── index.js       → Ponto de entrada do servidor
 │
-├── Frontend/        → Frontend (React + Vite)
-│   └── src/
-│       ├── App.jsx        → Roteamento principal
-│       └── Home.jsx       → Página inicial
+├── Frontend/                # SPA React + Vite
+│   ├── src/
+│   │   ├── components/      # MovieForm, MovieTable, MovieGrid, ConfirmModal...
+│   │   ├── contexts/        # ToastContext
+│   │   ├── hooks/           # useLocalStorage
+│   │   ├── pages/           # MovieList, MovieDetail, MovieCreate, MovieEdit, GenderList
+│   │   ├── services/        # api.js (axios client centralizado)
+│   │   ├── styles/          # theme.css (dark cinema)
+│   │   └── utils/           # validators.js
+│   └── README.md
 │
+├── INTEGRATION.md           # Documentação completa dos endpoints da API
 └── README.md
 ```
 
@@ -38,12 +45,8 @@ Project/
 
 ## 🚀 Instalação e Configuração
 
-### 1. Clonar o repositório
-
-```bash
-git clone https://github.com/Emilio2306/AI-FICHA7.git
-cd AI-FICHA7
-```
+### 1. Instalar pré-requisitos
+...
 
 ### 2. Configurar variáveis de ambiente
 
@@ -112,11 +115,11 @@ O frontend fica disponível em: `http://localhost:5173`
 
 ## 📡 Endpoints da API
 
-### 🎭 Géneros (`/list-genders`)
+### 🎭 Géneros (`/genders`)
 
 | Método | Rota              | Descrição              |
 |--------|-------------------|------------------------|
-| GET    | `/list-genders/test` | Listar todos os géneros |
+| GET    | `/genders/test` | Listar todos os géneros |
 
 ### 🎬 Filmes (`/movies`)
 
@@ -132,7 +135,20 @@ O frontend fica disponível em: `http://localhost:5173`
 > Os endpoints de criação e atualização aceitam `multipart/form-data` com o campo `file` para a imagem.
 
 ---
+**Extras implementados:**
+- Dual-view (grid de posters + tabela) com persistência da preferência no localStorage
+- Pesquisa por título/descrição em tempo real
+- Filtro por género combinável com pesquisa
+- Upload de imagens validado (PNG/JPG/WEBP, max 5MB)
+- Validação client-side em todos os formulários
+- Toasts para feedback de ações (success/error/warning/info)
+- Skeleton loaders durante carregamentos
+- Edição inline de géneros com atalhos de teclado (Enter/Escape)
+- Página de detalhe responsiva com poster sticky em desktop
+- Modal de confirmação para ações destrutivas
+- Tema dark mode com paleta cinema (Letterboxd/Netflix inspired)
 
+---
 ## 🗄️ Modelos da Base de Dados
 
 ### Gender
@@ -170,8 +186,22 @@ O frontend fica disponível em: `http://localhost:5173`
 - [Bootstrap 5](https://getbootstrap.com/) — Estilos
 
 ---
+## 🏗️ Decisões Arquiteturais
 
+**Backend MVC.** Separação clara `routes → controllers → models`. Routes só conhecem URIs e middlewares; controllers só conhecem lógica de negócio; models só conhecem persistência.
+
+**Camada de serviços centralizada no Frontend.** Todas as chamadas à API passam por `services/api.js` (axios client com `baseURL` da env). Trocar de ambiente = trocar `VITE_API_URL`.
+
+**Componentização baseada na regra dos três.** Componentes só são extraídos quando o mesmo padrão aparece três vezes (`MovieForm` partilhado entre Create/Edit, `ConfirmModal` reusado em Filmes e Géneros).
+
+**UI proporcional à complexidade dos dados.** Filmes (5 campos + imagem + descrição longa) têm páginas dedicadas. Géneros (1 campo de texto) têm uma única página com edição inline — evita over-engineering.
+
+**Design system via CSS variables.** Tema completo definido em `:root` no `theme.css`. Mudar o esquema de cores = editar um bloco.
+
+**Filtragem client-side.** Dataset pequeno justifica filtrar no browser (latência zero). Quando crescer, migra-se para query params no backend.
+
+---
 ## 👤 Autor
 
-**Emilio** — Estudante de Engenharia Informática  
+**Emilio** — Engenharia Informática  
 GitHub: [@Emilio2306](https://github.com/Emilio2306)

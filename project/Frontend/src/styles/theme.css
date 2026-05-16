@@ -1,0 +1,889 @@
+/* =========================================================================
+   THEME — Dark Mode Cinema
+   ========================================================================= */
+
+/* Tipografia */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* -------------------------------------------------------------------------
+   Design tokens (CSS variables)
+   ------------------------------------------------------------------------- */
+:root {
+  /* Backgrounds — escala de elevação */
+  --bg-base:        #0A0B0F;
+  --bg-elevated:    #14161D;
+  --bg-overlay:     #1C1F28;
+  --bg-hover:       #1F2230;
+
+  /* Texto */
+  --text-primary:   #E8E8EC;
+  --text-secondary: #9CA3AF;
+  --text-muted:     #6B7280;
+
+  /* Bordas */
+  --border:         #2A2D38;
+  --border-strong:  #3A3D48;
+
+  /* Accent — vermelho cinema */
+  --accent:         #E50914;
+  --accent-hover:   #F40612;
+  --accent-soft:    rgba(229, 9, 20, 0.15);
+
+  /* Estados */
+  --success:        #10B981;
+  --warning:        #F59E0B;
+  --danger:         #EF4444;
+
+  /* Layout */
+  --radius-sm:      6px;
+  --radius:         10px;
+  --radius-lg:      16px;
+  --transition:     150ms ease;
+}
+
+/* -------------------------------------------------------------------------
+   Reset & base
+   ------------------------------------------------------------------------- */
+html, body, #root {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+}
+
+body {
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+h1 { font-size: 2rem; }
+
+a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover { color: var(--accent); }
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* -------------------------------------------------------------------------
+   Topbar
+   ------------------------------------------------------------------------- */
+.topbar {
+  background-color: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 0;
+  margin-bottom: 2.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  background-color: rgba(20, 22, 29, 0.85);
+}
+
+.topbar .brand {
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--text-primary);
+}
+
+.topbar .brand-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.topbar nav a {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color var(--transition);
+  position: relative;
+  padding: 0.25rem 0;
+}
+
+.topbar nav a:hover,
+.topbar nav a.active {
+  color: var(--text-primary);
+}
+
+.topbar nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+/* -------------------------------------------------------------------------
+   Bootstrap overrides (mantém classes Bootstrap, troca aparência)
+   ------------------------------------------------------------------------- */
+
+/* Cards & containers genéricos */
+.surface {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+/* Botões */
+.btn {
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1.1rem;
+  transition: all var(--transition);
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: white;
+}
+
+.btn-warning {
+  background-color: transparent;
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+.btn-warning:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+/* Botão "Eliminar" na tabela: subtil até hover */
+.btn-danger {
+  background-color: transparent;
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #FCA5A5;
+}
+.btn-danger:hover {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: white;
+}
+
+.btn-outline-secondary {
+  background-color: transparent;
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+.btn-outline-secondary:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+/* Inputs & forms — mais contraste */
+.form-control,
+.form-select {
+  background-color: var(--bg-base);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.9rem;
+  transition: all var(--transition);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--bg-base);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  color: var(--text-primary);
+}
+
+
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.form-label {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-select option {
+  background-color: var(--bg-overlay);
+  color: var(--text-primary);
+}
+
+/* Input file (estilizado de forma simples e legível) */
+.form-control[type="file"] {
+  padding: 0.5rem 0.85rem;
+}
+.form-control[type="file"]::file-selector-button {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  border: none;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  margin-right: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.form-control[type="file"]::file-selector-button:hover {
+  background-color: var(--border);
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Tabela */
+.table {
+  --bs-table-bg: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+  margin-bottom: 0;
+}
+
+.table-bordered,
+.table-bordered > :not(caption) > * {
+  border-color: var(--border);
+}
+
+.table-dark {
+  --bs-table-bg: var(--bg-overlay);
+  --bs-table-color: var(--text-secondary);
+}
+.table > thead {
+  background-color: var(--bg-overlay);
+}
+.table > thead th {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.table > tbody > tr {
+  transition: background-color var(--transition);
+}
+.table > tbody > tr:hover {
+  --bs-table-bg-state: var(--bg-hover);
+}
+
+.table > tbody > tr > td {
+  padding: 0.85rem 1rem;
+  vertical-align: middle;
+  border-color: var(--border);
+}
+
+.table-hover > tbody > tr:hover > * {
+  color: var(--text-primary);
+}
+
+/* Alerts */
+.alert {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.alert-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #FCA5A5;
+}
+
+/* Modal — sobrepor Bootstrap */
+.modal-content {
+  background-color: var(--bg-overlay);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+}
+.modal-header,
+.modal-footer {
+  border-color: var(--border);
+}
+/* Mas dentro do modal de confirmação, mantém vermelho sólido (já decidiste eliminar) */
+.modal-footer .btn-danger {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: white;
+}
+.modal-footer .btn-danger:hover {
+  background-color: #DC2626;
+  border-color: #DC2626;
+}
+.modal-backdrop.show {
+  opacity: 0.75;
+  background-color: #000;
+}
+.btn-close {
+  filter: invert(1) opacity(0.6);
+  transition: opacity var(--transition);
+}
+.btn-close:hover { filter: invert(1) opacity(1); }
+
+/* -------------------------------------------------------------------------
+   Poster (imagem em listas)
+   ------------------------------------------------------------------------- */
+.poster {
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  background-color: var(--bg-overlay);
+}
+
+.poster-sm { width: 48px; height: 64px; }
+.poster-md { width: 80px; height: 110px; }
+.poster-lg { width: 160px; height: 220px; }
+
+/* -------------------------------------------------------------------------
+   Empty state
+   ------------------------------------------------------------------------- */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+}
+
+/* -------------------------------------------------------------------------
+   Spinner
+   ------------------------------------------------------------------------- */
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+/* -------------------------------------------------------------------------
+   Gender list
+   ------------------------------------------------------------------------- */
+.gender-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gender-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.25rem;
+  transition: all var(--transition);
+}
+
+.gender-row:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+
+.gender-id {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  min-width: 2.5rem;
+}
+
+.gender-name {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 1rem;
+}
+/* -------------------------------------------------------------------------
+   Toasts
+   ------------------------------------------------------------------------- */
+.toast-container {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  pointer-events: none;
+  max-width: 380px;
+}
+
+.toast-item {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--bg-overlay);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: toast-in 200ms ease-out;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.toast-success { border-left-color: var(--success); }
+.toast-error   { border-left-color: var(--danger); }
+.toast-warning { border-left-color: var(--warning); }
+.toast-info    { border-left-color: var(--accent); }
+
+.toast-icon {
+  font-weight: 700;
+  font-size: 1.1rem;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+}
+.toast-success .toast-icon { color: var(--success); }
+.toast-error   .toast-icon { color: var(--danger); }
+.toast-warning .toast-icon { color: var(--warning); }
+.toast-info    .toast-icon { color: var(--accent); }
+
+.toast-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  transition: color var(--transition);
+}
+.toast-close:hover { color: var(--text-primary); }
+/* -------------------------------------------------------------------------
+   Field validation
+   ------------------------------------------------------------------------- */
+.form-control.is-invalid,
+.form-select.is-invalid {
+  border-color: var(--danger);
+  background-image: none;
+}
+
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.field-error {
+  color: #FCA5A5;
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+/* -------------------------------------------------------------------------
+   Skeleton loaders
+   ------------------------------------------------------------------------- */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 0%,
+    var(--bg-hover) 50%,
+    var(--bg-elevated) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+  display: block;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-title  { height: 32px; }
+.skeleton-text   { height: 14px; }
+.skeleton-button { width: 130px; height: 42px; border-radius: 6px; }
+
+.skeleton-poster-sm {
+  width: 48px;
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.skeleton-row:last-child { border-bottom: none; }
+
+/* -------------------------------------------------------------------------
+   Movie grid (Letterboxd-style)
+   ------------------------------------------------------------------------- */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.movie-card {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.movie-card-poster-link {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background-color: var(--bg-overlay);
+}
+
+.movie-card-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 400ms ease;
+}
+
+.movie-card:hover .movie-card-poster {
+  transform: scale(1.05);
+}
+
+.movie-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.3) 60%,
+    transparent 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.movie-card:hover .movie-card-overlay {
+  opacity: 1;
+}
+
+.movie-card-overlay-text {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.movie-card-body {
+  padding: 0.85rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.movie-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.3;
+  min-height: 2.6em;
+}
+
+.movie-card-genre {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+.movie-card-actions {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* -------------------------------------------------------------------------
+   View switcher
+   ------------------------------------------------------------------------- */
+.view-switcher {
+  display: inline-flex;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 2px;
+}
+
+.view-switcher-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.view-switcher-btn:hover {
+  color: var(--text-primary);
+}
+
+.view-switcher-btn.active {
+  background-color: var(--bg-overlay);
+  color: var(--text-primary);
+}
+/* -------------------------------------------------------------------------
+   Filters bar
+   ------------------------------------------------------------------------- */
+.filters-bar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filters-search {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+.filters-search .form-control {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.filters-search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+.filters-clear-search {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: all var(--transition);
+}
+
+.filters-clear-search:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+}
+
+.filters-gender {
+  min-width: 200px;
+  max-width: 240px;
+}
+/* -------------------------------------------------------------------------
+   Movie detail page
+   ------------------------------------------------------------------------- */
+.movie-detail {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.movie-detail-poster-wrapper {
+  position: sticky;
+  top: 6rem;
+}
+
+.movie-detail-poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.movie-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.movie-detail-genre {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  padding: 0.3rem 0.7rem;
+  background-color: var(--accent-soft);
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.movie-detail-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.movie-detail-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.movie-detail-meta-sep {
+  color: var(--text-muted);
+}
+
+.movie-detail-section-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+}
+
+.movie-detail-description {
+  margin-top: 0.5rem;
+}
+
+.movie-detail-description p {
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.movie-detail-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Responsivo: empilha em mobile */
+@media (max-width: 768px) {
+  .movie-detail {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .movie-detail-poster-wrapper {
+    position: static;
+    max-width: 260px;
+    margin: 0 auto;
+  }
+
+  .movie-detail-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .movie-detail-genre,
+  .movie-detail-meta {
+    justify-self: center;
+  }
+
+  .movie-detail-actions {
+    justify-content: center;
+  }
+}

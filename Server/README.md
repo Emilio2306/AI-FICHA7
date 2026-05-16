@@ -11,18 +11,35 @@ Objetivo: Node + Express + React
 - Uma base de dados criada no PostgreSQL chamada `AI2`
 
 ### Passos
+##  1. Como correr
 
-1. Clonar e instalar:
 ```bash
-   git clone https://github.com/Emilio2306/AI-FICHA7.git
-   cd AI-FICHA7
-   npm install
+npm install
+cp .env.example .env       # editar com credenciais da BD
+node src/seed/seed.js      # popular géneros iniciais (opcional)
+npm run dev
 ```
-2. Garantir que existe a base de dados `PINT` no PostgreSQL local. Se não existir, no `psql`:
-```sql
-   CREATE DATABASE "PINT";
-```
+Servidor em `http://localhost:3000`. Health check: `GET /health`.
 
+2. Garantir que existe a base de dados `AI2` no PostgreSQL local. Se não existir, no `psql`:
+```sql
+   CREATE DATABASE "AI2";
+```
+## ⚙️ Variáveis de ambiente
+
+Ver `.env.example`:
+
+| Variável | Default | Descrição |
+|---|---|---|
+| `PORT` | `3000` | Porta do servidor Express |
+| `DB_NAME` | `AI2` | Nome da base de dados |
+| `DB_USER` | `postgres` | Utilizador PostgreSQL |
+| `DB_PASSWORD` | — | Password PostgreSQL |
+| `DB_HOST` | `localhost` | Host da BD |
+| `DB_PORT` | `5432` | Porta da BD |
+| `UPLOAD_FOLDER` | `uploads` | Pasta de destino dos uploads |
+
+---
 3. Popular a base de dados com dados de teste:
 ```bash
    npm run seed -- --force
@@ -33,3 +50,39 @@ Objetivo: Node + Express + React
 ```bash
    npm run dev
 ```
+src/
+├── config/
+│   └── database.js          # Instância Sequelize
+├── controllers/
+│   ├── movieController.js   # Lógica de filmes (CRUD)
+│   └── genderController.js  # Lógica de géneros (CRUD)
+├── middlewares/
+│   └── uploadMiddleware.js  # Multer (configuração e validação)
+├── models/
+│   ├── movie.js             # Model Filme
+│   ├── gender.js            # Model Género
+│   └── index.js             # Associações entre models
+├── routes/
+│   ├── movieRoute.js        # /filmes/* e /filme/*
+│   └── genderRoute.js       # /generos/* e /genero/*
+├── seed/
+│   └── seed.js              # População inicial da BD
+└── index.js                 # Entry point Express
+
+**Relação:** `Filme.belongsTo(Genero)` e `Genero.hasMany(Filme)`.
+
+> 💡 Os filmes vêm sempre com `include: [{ model: Gender, as: 'gender' }]` para que o frontend tenha acesso direto a `movie.gender.description`.
+
+---
+
+## 📂 Uploads
+
+Imagens carregadas via `POST /filme/create` ou `PUT /filme/update/:id` são guardadas em `Server/uploads/` e servidas como ficheiros estáticos via `GET /uploads/<filename>`.
+
+Formatos aceites: PNG, JPG, JPEG, WEBP. Tamanho máximo: 5 MB (validado também client-side).
+
+---
+
+## 🔌 CORS
+
+Por defeito, aceita apenas pedidos de `http://localhost:5173` (origem do frontend Vite). Para alterar, edita `src/index.js
